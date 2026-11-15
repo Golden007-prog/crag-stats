@@ -43,4 +43,6 @@ vite.config.ts.timestamp-*
 
 # Claude Code worktrees (local only)
 /.claude/worktrees/
-*.csv
+
+# Personal theCrag logbook exports (manual uploads, never commit)
+/*-logbook-*.csv

@@ -817,7 +817,11 @@ export function getDashboardStats(
 	const extraRows = analyticsRows.map(toExtraRow);
 	const activityExtraRows = activityRows.map(toExtraRow);
 	const weatherConditions = buildWeatherConditionsView(extraRows, weatherByKey);
-	const weatherPerformance = buildWeatherPerformanceView(extraRows, weatherByKey);
+	const weatherPerformance = buildWeatherPerformanceView(
+		extraRows,
+		weatherByKey,
+		displayUnits.temperature
+	);
 	const rockPerformance = buildRockPerformanceView(extraRows);
 	const monthly = buildMonthlyStats(extraRows);
 	const yearly = buildYearlyStats(extraRows);

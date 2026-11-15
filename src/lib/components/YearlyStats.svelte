@@ -513,7 +513,9 @@
 								<td>{row.onsights}</td>
 								<td class={deltaClass(row.deltaOnsights)}>{fmtDelta(row.deltaOnsights)}</td>
 								<td>{formatHeight(row.heightM, heightUnit)}</td>
-								<td class={deltaClass(row.deltaHeightM)}>{fmtDelta(row.deltaHeightM, ' m')}</td>
+								<td class={deltaClass(row.deltaHeightM)}
+									>{fmtDelta(row.deltaHeightM, deltaSuffix)}</td
+								>
 							</tr>
 						{/each}
 					</tbody>

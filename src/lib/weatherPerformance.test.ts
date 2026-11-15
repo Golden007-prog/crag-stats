@@ -154,6 +154,32 @@ describe('buildWeatherPerformanceView', () => {
 		expect(temp.bands.reduce((s, b) => s + b.days, 0)).toBe(view.days - 1);
 	});
 
+	it('labels temperature bands in Fahrenheit while keeping Celsius logbook links', () => {
+		const rows: WeatherPerformanceRow[] = [];
+		const map = new Map<string, WeatherSnapshot>();
+		for (let i = 0; i < WEATHER_PERFORMANCE_MIN_DAYS; i++) {
+			const d = day(i);
+			rows.push(row({ ascentDate: d }));
+			map.set(keyOf(d), snap({ tempMaxC: i % 2 ? 20 : 5 }));
+		}
+		const view = buildWeatherPerformanceView(rows, map, 'fahrenheit')!;
+		const temp = view.groups.find((g) => g.key === 'temperature')!;
+		expect(temp.bands.map((b) => b.label)).toEqual([
+			'Under 50°',
+			'50–63°',
+			'64–76°',
+			'77–85°',
+			'86°+'
+		]);
+		expect(temp.bands.map((b) => b.href)).toEqual([
+			'/logbook?weatherHighMax=10',
+			'/logbook?weatherHighMin=10&weatherHighMax=18',
+			'/logbook?weatherHighMin=18&weatherHighMax=25',
+			'/logbook?weatherHighMin=25&weatherHighMax=30',
+			'/logbook?weatherHighMin=30'
+		]);
+	});
+
 	it('flags a band that differs from other days and stays quiet on noise', () => {
 		const rows: WeatherPerformanceRow[] = [];
 		const map = new Map<string, WeatherSnapshot>();

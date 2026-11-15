@@ -375,6 +375,7 @@
 								location={climb.weatherLocation}
 								chips={climb.weatherChips}
 								dateDisplay={data.dateDisplay}
+								displayUnits={data.displayUnits}
 							/>
 						</div>
 						<GradeChip grade={climb.gradeLabel ?? climb.gradeRaw} band={climb.gradeBand} />

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, untrack } from 'svelte';
 	import DashboardLayoutEditor from '#lib/components/DashboardLayoutEditor.svelte';
 	import { DATE_FORMAT_OPTIONS, formatDateTime, formatNumber } from '#lib/dates';
 	import { BOULDER_GRADE_SYSTEMS, ROUTE_GRADE_SYSTEMS } from '#lib/grades';
@@ -36,11 +36,12 @@
 
 	let { data, form }: PageProps = $props();
 
-	let unitHeight = $state<HeightUnit>('m');
-	let unitDistance = $state<DistanceUnit>('km');
-	let unitTemperature = $state<TemperatureUnit>('celsius');
-	let unitWind = $state<WindUnit>('kmh');
-	let unitPrecipitation = $state<PrecipitationUnit>('mm');
+	// Seed from SSR data so the selects render the stored choice without JS.
+	let unitHeight = $state<HeightUnit>(untrack(() => data.displayUnits.height));
+	let unitDistance = $state<DistanceUnit>(untrack(() => data.displayUnits.distance));
+	let unitTemperature = $state<TemperatureUnit>(untrack(() => data.displayUnits.temperature));
+	let unitWind = $state<WindUnit>(untrack(() => data.displayUnits.wind));
+	let unitPrecipitation = $state<PrecipitationUnit>(untrack(() => data.displayUnits.precipitation));
 
 	$effect(() => {
 		unitHeight = data.displayUnits.height;
@@ -272,7 +273,7 @@
 				</select>
 				<small class="hint">Controls date layout across the logbook, heatmaps, and charts.</small>
 			</label>
-			<div class="subheading">Units of measurement</div>
+			<h3 class="subheading">Units of measurement</h3>
 			<div class="presets-row">
 				<span>Presets:</span>
 				{#each UNIT_PRESETS as preset (preset.id)}
@@ -862,7 +863,7 @@
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
 		color: var(--ink-muted);
-		margin-top: 0.5rem;
+		margin: 0.5rem 0 0;
 		border-top: 1px solid var(--line);
 		padding-top: 0.75rem;
 	}

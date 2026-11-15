@@ -7,12 +7,7 @@
 		type CardPreferences
 	} from '#lib/cardPreferences';
 	import { GRADE_BANDS } from '#lib/grades/bands';
-	import {
-		DEFAULT_DATE_DISPLAY,
-		formatCalendarDate,
-		formatNumber,
-		type DateDisplay
-	} from '#lib/dates';
+	import { DEFAULT_DATE_DISPLAY, formatCalendarDate, type DateDisplay } from '#lib/dates';
 	import {
 		DEFAULT_DISPLAY_UNITS,
 		formatPrecipitation,
@@ -342,7 +337,7 @@
 									<td>
 										{day.weather!.precipMm == null
 											? '—'
-											: `${formatNumber(Math.round(day.weather!.precipMm * 10) / 10, dateDisplay)} mm`}
+											: formatPrecipitation(day.weather!.precipMm, displayUnits.precipitation)}
 									</td>
 								</tr>
 							{/each}
