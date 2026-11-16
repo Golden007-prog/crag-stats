@@ -9,7 +9,7 @@
 	import TagChips from '#lib/components/TagChips.svelte';
 	import TickTypeIcon from '#lib/components/TickTypeIcon.svelte';
 	import { formatCalendarDate } from '#lib/dates';
-	import { formatPrecipitation, formatTemperature } from '#lib/units';
+	import { formatPrecipitation, formatTemperature, formatTemperatureDetail } from '#lib/units';
 	import WeatherChips from '#lib/components/WeatherChips.svelte';
 	import {
 		includeSelectedOptions,
@@ -734,12 +734,18 @@
 								<span
 									>High {row.weather.tempMaxC == null
 										? '—'
-										: formatTemperature(row.weather.tempMaxC, data.displayUnits.temperature)}</span
+										: formatTemperatureDetail(
+												row.weather.tempMaxC,
+												data.displayUnits.temperature
+											)}</span
 								>
 								<span
 									>Low {row.weather.tempMinC == null
 										? '—'
-										: formatTemperature(row.weather.tempMinC, data.displayUnits.temperature)}</span
+										: formatTemperatureDetail(
+												row.weather.tempMinC,
+												data.displayUnits.temperature
+											)}</span
 								>
 								<span
 									>Rain {row.weather.precipMm == null

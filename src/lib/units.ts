@@ -239,6 +239,21 @@ export function temperatureUnitLabel(unit: TemperatureUnit): string {
 	return unit === 'fahrenheit' ? '°F' : '°C';
 }
 
+/**
+ * Detail formatting for cached readings (logbook Weather column): convert to the display
+ * unit but keep the stored precision instead of rounding to whole numbers.
+ */
+export function formatTemperatureDetail(
+	c: number | null | undefined,
+	unit: TemperatureUnit = 'celsius'
+): string {
+	if (c == null || !Number.isFinite(c)) return '';
+	if (unit === 'fahrenheit') {
+		return `${Math.round(celsiusToFahrenheit(c) * 10) / 10}°F`;
+	}
+	return `${Math.round(c * 10) / 10}°C`;
+}
+
 // ---------------- Wind helpers ----------------
 
 export function convertWind(kmh: number, unit: WindUnit): number {

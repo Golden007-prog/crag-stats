@@ -7,6 +7,7 @@
 		type CardPreferences
 	} from '#lib/cardPreferences';
 	import type { HeatmapDay } from '#lib/types/dashboard';
+	import { formatCalendarDate, DEFAULT_DATE_DISPLAY, type DateDisplay } from '#lib/dates';
 	import {
 		convertHeight,
 		DEFAULT_DISPLAY_UNITS,
@@ -34,13 +35,15 @@
 		/** Dashboard links to `/activity` when that route exists; omit/null to skip. */
 		titleHref?: string | null;
 		displayUnits?: DisplayUnits;
+		dateDisplay?: DateDisplay;
 	};
 	let {
 		preferences = EMPTY_CARD_PREFERENCES,
 		years,
 		days = [],
 		titleHref = null,
-		displayUnits = DEFAULT_DISPLAY_UNITS
+		displayUnits = DEFAULT_DISPLAY_UNITS,
+		dateDisplay = DEFAULT_DATE_DISPLAY
 	}: Props = $props();
 
 	type Metric = 'ascents' | 'sends' | 'heightM';
@@ -358,13 +361,14 @@
 						opacity="0.75"
 					/>
 					{#each yl.dots as dot (dot.date)}
+						{@const dayLabel = formatCalendarDate(dot.date, dateDisplay)}
 						<a
 							href="/logbook?day={encodeURIComponent(dot.date)}"
-							aria-label="{dot.date}: {formatValue(dot.value)} {metricLabel} — open logbook"
+							aria-label="{dayLabel}: {formatValue(dot.value)} {metricLabel} — open logbook"
 							onmouseenter={() => onDotEnter(yl.year, dot.date, dot.value, dot.x, dot.y, yl.color)}
 							onmouseleave={onDotLeave}
 						>
-							<title>{dot.date}: {formatValue(dot.value)} {metricLabel}</title>
+							<title>{dayLabel}: {formatValue(dot.value)} {metricLabel}</title>
 							<circle class="hit" cx={dot.x} cy={dot.y} r="8" fill="transparent" />
 						</a>
 					{/each}
@@ -423,7 +427,7 @@
 			</svg>
 			{#if hover}
 				<p class="hover-label" style:color={hover.color}>
-					{hover.date} · {hover.year} · {formatValue(hover.value)}
+					{formatCalendarDate(hover.date, dateDisplay)} · {hover.year} · {formatValue(hover.value)}
 					{metricLabel.toLowerCase()}
 				</p>
 			{:else if yearLines.length > 0}
